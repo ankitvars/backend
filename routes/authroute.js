@@ -47,7 +47,7 @@ router.post(
   }
 );
 
-// ROUTE 2 : Authenticate a user using POST method "/api/auth/login". No Login required.
+// ROUTE 2 : Authenticate a user using POST method "/api/login". No Login required.
 router.post(
   '/login',
   // providing validation for different field so that user will send a valid value of email during login time
@@ -59,12 +59,19 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     const { phone } = req.body;
+
     try {
+      // Check if user with the same phone number already exists
+      const userExists = await User.findOne({ phone });
+      if (!userExists) {
+        return res
+          .status(400)
+          .json({ message: 'Your phone number does not exist' });
+      }
       const success = true;
       const status = 200;
-      const message = 'verify the otp next';
       // sending user token from server
-      res.status(200).json({ success, phone, status });
+      res.status(200).json({ phone, status, message: 'verify the otp next' });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Some error occured');
@@ -89,9 +96,9 @@ router.post(
     try {
       const user = await User.findOne({ phone, otp });
       // TO DO : condition will be changed to match otp is correct or not or user have already signed up
-       if (!user) {
-         return res.status(400).send({ error: 'Credentials not matched' });
-       }
+      if (!user) {
+        return res.status(400).send({ error: 'Credentials not matched' });
+      }
       const success = true;
       const status = 200;
       const message = 'Otp verified successfully';

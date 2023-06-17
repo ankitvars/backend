@@ -1,0 +1,19 @@
+{
+  "name": "chatexpress",
+  "version": "1.0.0",
+  "description": "Connect and chat in real-time with this Node.js, Express, and MongoDB-powered chat application, enabling seamless communication and message storage for a smooth and interactive chatting experience.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Ankit",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
